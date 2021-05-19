@@ -1,4 +1,10 @@
-# VASH
+# VASH2.0
+
+Vash2.0 is an efficient web-application for filtering and browsing whole genome variants.
+After parsing VCF file and creating table in database, users are able to browse whole genome variants smoothly.
+Vash provises not only the fluent browsing experience, but also the powerful tools to filter variants.
+
+Built on [Vash](http://merry.ee.ncku.edu.tw:8083/mbilab/vash) source code. 
 
 ## Before Get Started
 
