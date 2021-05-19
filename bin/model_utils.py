@@ -47,6 +47,7 @@ from .config import (fields_to_rename, fields_with_terms, infos_to_rename,
                      numeric_fields, unicode_table)
 
 BUFFER_SIZE = 2000
+HASHCODE_BUFFER_SIZE = 5000
 logging.basicConfig(
     level=logging.INFO,
     # level=logging.DEBUG,
@@ -115,7 +116,7 @@ def Q_match(cohort, match):
         f"*** count matches *** --- {round(time.time()-start_time, 6)} seconds ---")
 
     # It will be super  slow, when no string is contained
-    if match_count < 1000 and match_count != 0:
+    if match_count < HASHCODE_BUFFER_SIZE and match_count != 0:
         query_key = f'hashcodemodel__{key}'
         for hashcode in hashcodes:
             qs |= Q(**{query_key: hashcode})
