@@ -1,0 +1,57 @@
+{
+  "name": "vash",
+  "version": "0.1.0",
+  "private": true,
+  "description": "vash",
+  "author": {
+    "name": "Tien-Hao Chang",
+    "email": "darby.chang@gmail.com"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "watch": "vue-cli-service build --watch --modern --mode development",
+    "build": "vue-cli-service build --modern",
+    "start": "concurrently --kill-others -p '[{name}]' -n 'django,vue' -c 'cyan.bold,green.bold' 'yarn run start:server' 'yarn run watch'",
+    "start:server": "python manage.py runserver 0.0.0.0:$(/bin/cat port 2> /dev/null || /bin/echo 10102)"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "core-js": "^3.6.5",
+    "functional-red-black-tree": "^1.0.1",
+    "igv": "^2.6.6",
+    "localforage": "^1.9.0",
+    "luxon": "^1.26.0",
+    "moment": "^2.28.0",
+    "semantic-ui-offline": "^2.4.1",
+    "vue": "^2.6.12",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-smooth-reflow": "^0.1.12",
+    "vuex": "^3.5.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/component-compiler-utils": "^2.6.0",
+    "concurrently": "^4.1.0",
+    "miragejs": "^0.1.41",
+    "pug-cli": "^1.0.0-alpha6",
+    "sass": "^1.26.10",
+    "sass-loader": "^8.0.2",
+    "vue-cli-plugin-pug": "~2.0.0",
+    "vue-template-compiler": "^2.6.12",
+    "vuera": "^0.2.7"
+  },
+  "_id": "vash@0.1.0",
+  "license": "All rights reserved",
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "zoro:vcf-viewer"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
