@@ -496,23 +496,23 @@ class VariantModel(models.Model):
 class HashCodeModel(models.Model):
     variant = models.ForeignKey(VariantModel, on_delete=models.CASCADE)
 
-    variantID = models.CharField(max_length=5, null=True, db_index=True)
+    variantID = models.CharField(max_length=25, null=True, db_index=True)
     Func_dot_refGene = models.CharField(
-        max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
     Gene_dot_refGene = models.CharField(
-        max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
     ExonicFunc_dot_refGene = models.CharField(
-        max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
     Func_dot_knownGene = models.CharField(
-        max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
     Gene_dot_knownGene = models.CharField(
-        max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
     ExonicFunc_dot_knownGene = models.CharField(
-        max_length=5, null=True, db_index=True)
-    CLNDN = models.CharField(max_length=5, null=True, db_index=True)
-    CLNSIG = models.CharField(max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
+    CLNDN = models.CharField(max_length=25, null=True, db_index=True)
+    CLNSIG = models.CharField(max_length=25, null=True, db_index=True)
     Polyphen2_HDIV_pred = models.CharField(
-        max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
     Polyphen2_HVAR_pred = models.CharField(
-        max_length=5, null=True, db_index=True)
-    SIFT_pred = models.CharField(max_length=5, null=True, db_index=True)
+        max_length=25, null=True, db_index=True)
+    SIFT_pred = models.CharField(max_length=25, null=True, db_index=True)

@@ -86,7 +86,7 @@ def Q_match(cohort, match):
 
     hs = [md5(str.encode(value)) for value in values]
     hashcodes = [b64encode(h.digest()) for h in hs]
-    hashcodes = [hashcode.decode('utf-8')[:5] for hashcode in hashcodes]
+    hashcodes = [hashcode.decode('utf-8') for hashcode in hashcodes]
 
     start_time = time.time()
     query_key = f'hashcodemodel__{key}__in'
@@ -176,7 +176,7 @@ def insert_HashCodeModel(cohort_id, cursor, connection):
             values = re.split(';|\||,', str(getattr(variant, field_name)))
             hs = [md5(str.encode(value)) for value in values]
             variant_hashcode[field_name] = [
-                b64encode(h.digest()).decode('utf-8')[:5]
+                b64encode(h.digest()).decode('utf-8')
                 for h in hs
             ]
 
@@ -524,7 +524,7 @@ def parse_row(cohort_id, vcf_head, vcf_tail, info_keys, reader, samples, cursor,
         for i in range(max_hash_info_len):
             hash_row = [hash_info_dict[key][i] for key in hash_keys]
             hash_row = [md5(str.encode(v)) for v in hash_row]
-            hash_row = [b64encode(v.digest()).decode('utf-8')[:5]
+            hash_row = [b64encode(v.digest()).decode('utf-8')
                         for v in hash_row]
             hash_batch.append([row_index]+[v for v in hash_row])
 
