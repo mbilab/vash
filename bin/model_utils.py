@@ -173,7 +173,7 @@ def insert_HashCodeModel(cohort_id, cursor, connection):
         # 'variantID': ['asdass', 'asdasd'...]
         # }
         for field_name in field_names:
-            values = str(getattr(variant, field_name)).split(';')
+            values = re.split(';|\||,', str(getattr(variant, field_name)))
             hs = [md5(str.encode(value)) for value in values]
             variant_hashcode[field_name] = [
                 b64encode(h.digest()).decode('utf-8')[:5]
@@ -380,7 +380,7 @@ def parse_header(f_header, f_body):
 def build_hash_info_dict(hash_keys, row):
     hash_info_dict = {}
     for key in hash_keys:
-        hash_info_dict[key] = row.get(key, '').split(';')
+        hash_info_dict[key] = re.split(';|\||,', row.get(key, '').lower())
 
     max_hash_info_len = max(*[len(v) for v in hash_info_dict.values()])
 
@@ -398,7 +398,7 @@ def build_full_terms(full_terms, info_keys, terms_oversize, row
                        if term not in terms_oversize]
     for field in terms_available:
         if field in info_keys:
-            for _term in re.split(',|;', row['INFO'][field]):
+            for _term in re.split(',|\||;', row['INFO'][field]):
                 full_terms[field].add(_term)
     full_terms['ID'].add(row['variantID'])
 
