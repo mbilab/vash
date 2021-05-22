@@ -202,8 +202,8 @@ class VariantModel(models.Model):
     # basic
     CHROM = models.TextField(null=True)
     POS = models.TextField(null=True)
-    Start = models.IntegerField(null=True)
-    End = models.IntegerField(null=True)
+    Start = models.IntegerField(null=True, db_index=True)
+    End = models.IntegerField(null=True, db_index=True)
     REF = models.TextField(null=True)
     ALT = models.TextField(null=True)
     Others = models.TextField(null=True)
