@@ -61,7 +61,13 @@ def _Qs(cohort, queries):
     qs = Q()
     for query in queries:
         key = list(query.keys())[0]
-        if "__match" in key:
+        if "variantID" in key:
+            value = query[key]
+            key = key.replace('__match', '')
+            match = {}
+            match[key] = value
+            qs &= Q_hashcodes(match)
+        elif "__match" in key:
             value = query[key]
             key = key.replace('__match', '')
             match = {}
@@ -74,7 +80,7 @@ def _Qs(cohort, queries):
     return qs
 
 
-def Q_match(cohort, match):
+def Q_hashcodes(match):
     qs = Q()
     # match = {'variantID': ['rs123', 'rs234']}
     keys = match.keys()
@@ -87,6 +93,28 @@ def Q_match(cohort, match):
     hs = [md5(str.encode(value)) for value in values]
     hashcodes = [b64encode(h.digest()) for h in hs]
     hashcodes = [hashcode.decode('utf-8') for hashcode in hashcodes]
+
+    query_key = f'hashcodemodel__{key}'
+    for hashcode in hashcodes:
+        qs |= Q(**{query_key: hashcode})
+
+    return qs
+
+
+def Q_match(cohort, match, id_cached):
+    qs = Q()
+    # match = {'CLNSIG': ['rs123', 'rs234']}
+    keys = match.keys()
+    if len(keys) > 1:
+        logger.error('WRONG Match format: key_len > 1')
+
+    key = next(iter(keys))
+    values = match[key]
+
+    hs = [md5(str.encode(value)) for value in values]
+    hashcodes = [b64encode(h.digest()) for h in hs]
+    hashcodes = [hashcode.decode('utf-8') for hashcode in hashcodes]
+    logger.info(hashcodes)
 
     start_time = time.time()
     query_key = f'hashcodemodel__{key}__in'
