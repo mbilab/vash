@@ -41,7 +41,6 @@ from app.models import (AAChange_dot_knownGeneTerms, AAChange_dot_refGeneTerms,
                         culpritTerms, fathmm_dash_MKL_coding_predTerms,
                         variantIDTerms)
 
-from .conf import DATABASES
 # local import
 from .config import (fields_to_rename, fields_with_terms, infos_to_rename,
                      numeric_fields, unicode_table)
