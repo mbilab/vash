@@ -168,12 +168,15 @@ def Q_position(query):
     for position in positions:
         logger.info(position)
         chrom, variant_range = position.split(':')
-        start, end = variant_range.split('-')
+        variant_range = variant_range.split('-')
 
         sqs = Q()
         qs &= Q(**{'CHROM': chrom})
-        qs &= Q(**{'Start__gte': start})
-        qs &= Q(**{'End__lte': end})
+        if len(variant_range) == 1:
+            qs &= Q(**{'Start': variant_range[0]})
+        if len(variant_range) == 2:
+            qs &= Q(**{'Start__gte': variant_range[0]})
+            qs &= Q(**{'End__lte': variant_range[1]})
         qs |= sqs
     return qs
 
