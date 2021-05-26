@@ -87,7 +87,7 @@ def Q_hashcodes(match):
         logger.error('WRONG Match format: key_len > 1')
 
     key = next(iter(keys))
-    values = match[key]
+    values = [v.lower() for v in match[key]]
 
     hs = [md5(str.encode(value)) for value in values]
     hashcodes = [b64encode(h.digest()) for h in hs]
@@ -108,7 +108,7 @@ def Q_match(cohort, match, id_cached):
         logger.error('WRONG Match format: key_len > 1')
 
     key = next(iter(keys))
-    values = match[key]
+    values = [v.lower() for v in match[key]]
 
     hs = [md5(str.encode(value)) for value in values]
     hashcodes = [b64encode(h.digest()) for h in hs]
