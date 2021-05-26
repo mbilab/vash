@@ -22,7 +22,7 @@ You must have package installed before installation
    ```
    and then follow [this answer in stackoverflow.com](https://stackoverflow.com/a/55954355)
    ```
-   $ vi <env_directory_name>/Lib/site-packages/django/db/base.py
+   $ vi <env_directory_name>/Lib/site-packages/django/db/backends/mysql/base.py
    ```
 
 2. Build front-end page
@@ -35,8 +35,8 @@ You must have package installed before installation
 
    ```
    $ cd proj
-   $ cp proj.default.py proj.py
-   $ vi proj.py
+   $ cp settings.py.sample settings.py
+   $ vi settings.py
    ```
    and set your `SECRET_KEY` and `DATABASE` in `proj.py`.
    
