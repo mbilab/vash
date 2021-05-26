@@ -18,7 +18,7 @@ You must have package installed before installation
 
 1. Install python depandencies
    ```
-   $ pip install -r requirement.txt
+   $ pip install -r requirements.txt
    ```
    and then follow [this answer in stackoverflow.com](https://stackoverflow.com/a/55954355)
    ```
