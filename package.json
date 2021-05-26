@@ -15,7 +15,7 @@
     "start:server": "python manage.py runserver 0.0.0.0:$(/bin/cat port 2> /dev/null || /bin/echo 10102)"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.5",
     "functional-red-black-tree": "^1.0.1",
