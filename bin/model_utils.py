@@ -113,14 +113,11 @@ def Q_match(cohort, match, id_cached):
     hs = [md5(str.encode(value)) for value in values]
     hashcodes = [b64encode(h.digest()) for h in hs]
     hashcodes = [hashcode.decode('utf-8') for hashcode in hashcodes]
-    logger.info(hashcodes)
 
     start_time = time.time()
     query_key = f'hashcodemodel__{key}__in'
     try:
-        match_count = cohort.variantmodel_set.filter(
-            **{query_key: hashcodes}).count()
-        sql = f'SELECT /*+ MAX_EXECUTION_TIME(500) */ COUNT(*)\
+        sql = f'SELECT /*+ MAX_EXECUTION_TIME(2000) */ COUNT(*)\
             FROM `app_variantmodel` INNER JOIN `app_hashcodemodel` \
             ON(`app_variantmodel`.`id`= `app_hashcodemodel`.`variant_id`)\
             WHERE (`app_variantmodel`.`cohort_id`=%s\
@@ -129,21 +126,24 @@ def Q_match(cohort, match, id_cached):
         cursor.execute(sql, [cohort.id, tuple(hashcodes)])
 
         match_count = cursor.fetchone()[0]
-    except InternalError:
-        match_count = 0
+    except (InternalError, OperationalError):
+        match_count = None
 
-    try:
-        first_match_id = cohort.variantmodel_set.filter(
-            **{query_key: hashcodes[:1]}).first().id
-    except (django.core.exceptions.FieldError, AttributeError):
+    if match_count == 0 or id_cached:
         first_match_id = None
-        match_count = 0
-    logger.info(match_count)
+    else:
+        try:
+            first_match_ids = [cohort.variantmodel_set.filter(
+                **{query_key: [hashcode]}).first().id for hashcode in hashcodes]
+            first_match_id = min(first_match_ids)
+        except (django.core.exceptions.FieldError, AttributeError):
+            first_match_id = None
+
     logger.info(
-        f"*** count matches *** --- {round(time.time()-start_time, 6)} seconds ---")
+        f"*** count matches *** --- {round(time.time()-start_time, 6)} seconds ,  {match_count}---")
 
     # It will be super  slow, when no string is contained
-    if match_count < HASHCODE_BUFFER_SIZE and match_count != 0:
+    if match_count and match_count < HASHCODE_BUFFER_SIZE and match_count != 0:
         query_key = f'hashcodemodel__{key}'
         for hashcode in hashcodes:
             qs |= Q(**{query_key: hashcode})
@@ -162,11 +162,9 @@ def Q_position(query):
 
     qs = Q()
 
-    logger.info(query)
     key = list(query.keys())[0]
     positions = query[key]
     for position in positions:
-        logger.info(position)
         chrom, variant_range = position.split(':')
         variant_range = variant_range.split('-')
 
@@ -179,6 +177,56 @@ def Q_position(query):
             qs &= Q(**{'End__lte': variant_range[1]})
         qs |= sqs
     return qs
+
+
+def has_only_terms(cohort_id, queries):
+    # queries = [{'Gene_dot_refGene__match': ['BRCA1']}]
+    for query in queries:
+        key = list(query.keys())[0]
+        if "__match" in key:
+            keywords = query[key]
+            key = key.replace('__match', '')
+            try:
+                term_model = eval(f'{key}Terms')
+                for keyword in keywords:
+                    qs = term_model.objects.filter(
+                        cohort_id=cohort_id, term=keyword)
+                    if not qs:
+                        return False
+            # if no correspond term_model
+            except NameError:
+                return False
+        else:
+            return False
+
+    return True
+
+
+def check_keyword_is_contained_in_term_model(cohort_id, queries):
+    # queries = [{'Gene_dot_refGene__match': ['BRCA1']}]
+    valid = True
+    for query in queries:
+        key = list(query.keys())[0]
+        if "__match" in key:
+            keywords = query[key]
+            key = key.replace('__match', '')
+            if key in ['variantID', 'AAChange_dot_refGene', 'AAChange_dot_knownGene', 'GeneDetail_dot_refGene', 'Gene_dot_knownGene']:
+                continue
+            try:
+                valid_query = False
+                term_model = eval(f'{key}Terms')
+                for keyword in keywords:
+                    qs = term_model.objects.filter(
+                        cohort_id=cohort_id, term__icontains=keyword)
+                    if qs:
+                        valid_query = True
+                valid = valid if valid_query else False
+            # if no correspond term_model
+            except NameError:
+                continue
+    logger.info(f'keyword is contained in term model: {valid}')
+
+    return valid
 
 
 def get_vcf_head_tail(file):

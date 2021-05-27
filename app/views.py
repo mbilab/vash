@@ -10,9 +10,6 @@ from subprocess import PIPE, Popen
 from sys import stderr
 
 from asgiref.sync import async_to_sync, sync_to_async
-from bin.config import unicode_table
-from bin.model_utils import (_Qs, create_admin_group, create_cohort_with_SQL,
-                             create_sub_variants)
 from django.contrib import auth
 from django.contrib.auth.models import Group, User
 from django.db import connection
@@ -21,6 +18,11 @@ from django.db.utils import InternalError
 from django.forms.models import model_to_dict
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render
+
+from bin.config import unicode_table
+from bin.model_utils import (_Qs, check_keyword_is_contained_in_term_model,
+                             create_admin_group, create_cohort_with_SQL,
+                             create_sub_variants, has_only_terms)
 
 from .models import CohortModel, HashCodeModel, VariantModel
 
@@ -94,14 +96,25 @@ def cohort(request, cohort_id):
         try:
             # seen queries
             cohort = CohortModel.objects.get(token=token)
+            valid = has_only_terms(cohort_id, queries)
+            logger.info(f'Queries has only terms: {valid}')
+            if valid:
+                qs = _Qs(CohortModel.objects.get(pk=cohort_id), queries)
+                cohort.n_variants = CohortModel.objects.get(
+                    id=cohort_id).variantmodel_set.filter(qs).count()
         except CohortModel.DoesNotExist:
             # unseen queries
             cohort = CohortModel.objects.get(pk=cohort_id)
             qs = _Qs(cohort, queries)
             cohort.save_filter(token, query_str, qs)
 
-            cohort.n_variants = CohortModel.objects.get(
-                id=cohort_id).variantmodel_set.filter(qs).count()
+            valid = check_keyword_is_contained_in_term_model(
+                cohort_id, queries)
+            if valid:
+                cohort.n_variants = CohortModel.objects.get(
+                    id=cohort_id).variantmodel_set.filter(qs).count()
+            else:
+                cohort.n_variants = 0
             cohort.save()
 
     cohort = model_to_dict(cohort)
@@ -453,6 +466,10 @@ def variants(request, cohort_id, start, size):
 
     startTime = time.time()
     cohort = CohortModel.objects.get(id=cohort_id)
+    valid = check_keyword_is_contained_in_term_model(cohort.id, queries)
+    if not valid:
+        return JsonResponse({'rows': [], 'start': start})
+
     qs = _Qs(cohort, queries)
     logger.debug(qs)
     try:
