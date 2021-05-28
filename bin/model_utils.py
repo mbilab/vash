@@ -496,6 +496,10 @@ def build_info(infos, info_keys, info_keys_to_rename):
         info[key] = '.'
 
     info['variantID'] = info['avsnp150']
+    try:
+        info['AF'] = str(int(info['AC']) / int(info['AN']))
+    except ValueError:
+        info['AF'] = '.'
 
     return info
 
