@@ -200,7 +200,7 @@ class VariantModel(models.Model):
     cohort = models.ForeignKey(CohortModel, on_delete=models.CASCADE)
 
     # basic
-    CHROM = models.TextField(null=True)
+    CHROM = models.CharField(max_length=5, null=True, db_index=True)
     POS = models.TextField(null=True)
     Start = models.IntegerField(null=True, db_index=True)
     End = models.IntegerField(null=True, db_index=True)
