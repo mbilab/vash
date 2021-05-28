@@ -1,11 +1,9 @@
 # VASH
 
-Vash is an efficient web-application for filtering and browsing whole genome variants.
-After parsing VCF file and creating table in database, users are able to browse whole genome variants smoothly.
-Vash provises not only the fluent browsing experience, but also the powerful tools to filter variants.
+VASH is an efficient web-application for browsing whole genome variants, aka a viewer for huge `*.vcf` files.
+It provises smooth browsing experience and powerful filtering tools.
 
-This repo is open sourece version of Vash.
-First version of Vash: [Vash](http://merry.ee.ncku.edu.tw:8083/mbilab/vash). 
+This repository is a public version of VASH.  The original version is maintained by [Molecular Biomedical Informatics laboratory](https://zoro.ee.ncku.edu.tw).
 
 ## Before Get Started
 
