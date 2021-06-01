@@ -287,9 +287,9 @@ class VariantModel(models.Model):
     COSMICCancerInfo = models.TextField(null=True)
 
     # for ANNOVAR
-    AC = models.FloatField(null=True)
-    AF = models.FloatField(null=True)
-    AN = models.FloatField(null=True)
+    AC = models.FloatField(null=True, db_index=True)
+    AF = models.FloatField(null=True, db_index=True)
+    AN = models.FloatField(null=True, db_index=True)
     BaseQRankSum = models.FloatField(null=True)
     ClippingRankSum = models.FloatField(null=True)
     DP = models.FloatField(null=True)
