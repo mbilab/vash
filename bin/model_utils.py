@@ -115,7 +115,6 @@ def Q_match(cohort, match, id_cached):
     hashcodes = [hashcode.decode('utf-8') for hashcode in hashcodes]
 
     start_time = time.time()
-    query_key = f'hashcodemodel__{key}__in'
     try:
         sql = f'SELECT /*+ MAX_EXECUTION_TIME(2000) */ COUNT(*)\
             FROM `app_variantmodel` INNER JOIN `app_hashcodemodel` \
@@ -129,16 +128,6 @@ def Q_match(cohort, match, id_cached):
     except (InternalError, OperationalError):
         match_count = None
 
-    if match_count == 0 or id_cached:
-        first_match_id = None
-    else:
-        try:
-            first_match_ids = [cohort.variantmodel_set.filter(
-                **{query_key: [hashcode]}).first().id for hashcode in hashcodes]
-            first_match_id = min(first_match_ids)
-        except (django.core.exceptions.FieldError, AttributeError):
-            first_match_id = None
-
     logger.info(
         f"*** count matches *** --- {round(time.time()-start_time, 6)} seconds ,  {match_count}---")
 
@@ -147,13 +136,19 @@ def Q_match(cohort, match, id_cached):
         query_key = f'hashcodemodel__{key}'
         for hashcode in hashcodes:
             qs |= Q(**{query_key: hashcode})
+        if not id_cached:
+            try:
+                query_key = f'hashcodemodel__{key}__in'
+                first_match_ids = [cohort.variantmodel_set.filter(
+                    **{query_key: [hashcode]}).first().id for hashcode in hashcodes]
+                first_match_id = min(first_match_ids)
+                qs &= Q(**{'id__gte': first_match_id})
+            except (django.core.exceptions.FieldError, AttributeError):
+                first_match_id = None
     else:
         query_key = f'{key}__icontains'
         for value in values:
             qs |= Q(**{query_key: value})
-
-    if first_match_id:
-        qs &= Q(**{'id__gte': first_match_id})
 
     return qs
 
