@@ -164,12 +164,15 @@ def Q_position(query):
         variant_range = variant_range.split('-')
 
         sqs = Q()
-        qs &= Q(**{'CHROM': chrom})
+        qs &= Q(**{})
         if len(variant_range) == 1:
-            qs &= Q(**{'Start': variant_range[0]})
+            qs &= Q(**{'CHROM': chrom, 'Start': variant_range[0]})
         if len(variant_range) == 2:
-            qs &= Q(**{'Start__gte': variant_range[0]})
-            qs &= Q(**{'End__lte': variant_range[1]})
+            qs &= Q(**{
+                'CHROM': chrom,
+                'Start__gte': variant_range[0],
+                'End__lte': variant_range[1]
+            })
         qs |= sqs
     return qs
 
