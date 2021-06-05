@@ -69,9 +69,14 @@ def _Qs(cohort, queries):
         elif "__match" in key:
             value = query[key]
             key = key.replace('__match', '')
-            match = {}
-            match[key] = value
-            qs &= Q_match(cohort, match)
+            if is_indexes(key, value):
+                logger.info('is_indexes')
+                match = {}
+                match[key] = value
+                qs &= Q_match(cohort, match, id_cached)
+            else:
+                for v in value:
+                    qs &= Q(**{f'{key}__icontains': v})
         elif "position" in key:
             qs &= Q_position(query)
         else:
@@ -116,15 +121,10 @@ def Q_match(cohort, match, id_cached):
 
     start_time = time.time()
     try:
-        sql = f'SELECT /*+ MAX_EXECUTION_TIME(2000) */ COUNT(*)\
-            FROM `app_variantmodel` INNER JOIN `app_hashcodemodel` \
-            ON(`app_variantmodel`.`id`= `app_hashcodemodel`.`variant_id`)\
-            WHERE (`app_variantmodel`.`cohort_id`=%s\
-        AND `app_hashcodemodel`.`{key}` IN %s)'
-        cursor = connection.cursor()
-        cursor.execute(sql, [cohort.id, tuple(hashcodes)])
-
-        match_count = cursor.fetchone()[0]
+        query_key = f'hashcodemodel__{key}__in'
+        match_count = cohort.variantmodel_set.filter(
+            **{query_key: hashcodes}
+        ).count()
     except (InternalError, OperationalError):
         match_count = None
 
@@ -175,6 +175,31 @@ def Q_position(query):
             })
         qs |= sqs
     return qs
+
+
+def is_indexes(key, value):
+    # key: Gene_dot_refGene
+    # value: ['BRCA1', 'BRCA2']
+    if not key in [
+        'Func_dot_refGene',
+        'Gene_dot_refGene',
+        'ExonicFunc_dot_refGene',
+        'Func_dot_knownGene',
+        'Gene_dot_knownGene',
+        'ExonicFunc_dot_knownGene',
+        'CLNDN',
+        'CLNSIG',
+        'Polyphen2_HDIV_pred',
+        'Polyphen2_HVAR_pred',
+        'SIFT_pred'
+    ]:
+        return False
+
+    term_model = eval(f'{key}Terms')
+    if term_model.objects.filter(term__in=value):
+        return True
+    else:
+        False
 
 
 def has_only_terms(cohort_id, queries):
