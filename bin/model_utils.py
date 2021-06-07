@@ -171,7 +171,7 @@ def Q_position(query):
             qs &= Q(**{
                 'CHROM': chrom,
                 'Start__gte': variant_range[0],
-                'End__lte': variant_range[1]
+                'Start__lte': variant_range[1]
             })
         qs |= sqs
     return qs
