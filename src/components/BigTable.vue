@@ -428,11 +428,19 @@ export default {
       let loadedEnd = this.loaded.start + this.loaded.rows.length
       if (vr.start < loadedStart) {
         let start = vr.start - (vr.start % this.loadSize)
-        await this.load(start)
+        if (this.lock == 0) {
+          this.lock = 1
+          await this.load(start)
+          this.lock = 0
+        }
       }
       if (loadedEnd < vr.end && loadedEnd < this.knownSize) {
         let start = vr.end - (vr.end % this.loadSize)
-        await this.load(start)
+        if (this.lock == 0) {
+          this.lock = 1
+          await this.load(start)
+          this.lock = 0
+        }
       }
 
       // if `vr` has been rendered, skip render

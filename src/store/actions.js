@@ -46,37 +46,28 @@ const getCohort = async ({ commit, state }, { id, queries }) => {
 const getVariants = (
   { commit, state },
   { start, size, id_query, reverse = false }
-) =>
-  new Promise(async (resolve, reject) => {
-    const cohort = state.user.cohorts[state.selectedCohortIdx]
-    const req = Object.values(state.requests).find(req => req.start == start)
-    if (req) return // return reject()
-    const timestamp = Date.now()
-    const id = cohort.id
-    let queries = cohort.queries
-    if (id_query) {
-      queries = JSON.parse(queries)
-      queries.push(id_query)
-      queries = JSON.stringify(queries)
-    }
-    if (Number.isNaN(size)) {
-      console.error('size is NaN')
-      return reject()
-    }
-    commit('addRequest', { k: timestamp, v: { start } })
-    let startTime = Date.now()
-    const { data } = await axios.post(`/variants/${id}/${start}/${size}/`, {
-      queries,
-      reverse
-    })
-    commit('delRequest', timestamp)
-    if (id_query) {
-      queries = JSON.parse(queries)
-      queries.pop()
-      queries = JSON.stringify(queries)
-    }
-    if (id == cohort.id && queries == cohort.queries) return resolve(data)
+) => {
+  //
+  // return [data, error]
+  //
+  if (state.selectedCohortIdx === null) return [null, 'cohortIdx not selected']
+  if (Number.isNaN(size)) return [null, 'size is NaN']
+  const cohort = state.user.cohorts[state.selectedCohortIdx]
+  const timestamp = Date.now()
+  const id = cohort.id
+  let queries = cohort.queries
+  if (id_query) {
+    queries = JSON.parse(queries)
+    queries.push(id_query)
+    queries = JSON.stringify(queries)
+  }
+  commit('addRequest', { k: timestamp, v: { start } })
+  let startTime = Date.now()
+  const { data } = await axios.post(`/variants/${id}/${start}/${size}/`, {
+    queries,
+    reverse
   })
+}
 
 const getFriends = async ({ commit, state }) => {
   const { data } = await axios.get('/friends/')
