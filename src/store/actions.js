@@ -45,7 +45,7 @@ const getCohort = async ({ commit, state }, { id, queries }) => {
 
 const getVariants = (
   { commit, state },
-  { start, size, id_query, reverse = false }
+  { start, size, id_query, reverse = false, match_counts = {} }
 ) => {
   //
   // return [data, error]
@@ -61,11 +61,13 @@ const getVariants = (
     queries.push(id_query)
     queries = JSON.stringify(queries)
   }
+  match_counts = JSON.stringify(match_counts)
   commit('addRequest', { k: timestamp, v: { start } })
   let startTime = Date.now()
   const { data } = await axios.post(`/variants/${id}/${start}/${size}/`, {
     queries,
-    reverse
+    reverse,
+    match_counts
   })
 }
 

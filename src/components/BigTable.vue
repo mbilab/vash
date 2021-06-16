@@ -152,7 +152,10 @@ export default {
       rowHeight: 34,
       redirect: '',
       samples: [],
-      boundary: new Boundary()
+      boundary: new Boundary(),
+      nCountingVariants: 0,
+      timer: null,
+      match_counts: {} // not reactive
     }
   },
 
@@ -268,51 +271,52 @@ export default {
       }
     },
 
-    load(start = 0) {
-      return new Promise(async (resolve, reject) => {
-        // load {{{
-        let size =
-          start + this.loadSize <= this.cohort.n_variants ||
-          !this.cohort.n_variants
-            ? this.loadSize
-            : this.cohort.n_variants - start
-        let { left, right } = this.boundary.find(this.tree, start)
+    async load(start = 0) {
+      // load {{{
+      let size =
+        start + this.loadSize <= this.cohort.n_variants ||
+        !this.cohort.n_variants
+          ? this.loadSize
+          : this.cohort.n_variants - start
+      let { left, right } = this.boundary.find(this.tree, start)
 
-        let idQuery, tableStartId
-        let reverse = false
-        if (this.db_index[start]) {
-          idQuery = { ['id__gte']: this.db_index[start] }
-          tableStartId = 0
-        } else if (
-          start - left > right - start - size &&
-          right != this.boundary.max
-        ) {
-          // left ----------------------------right
-          //                ^  <---------->
-          //              start     size
-          idQuery = { ['id__lt']: this.db_index[right] }
-          tableStartId = right - start - size
-          reverse = true
-        } else if (left != this.boundary.min) {
-          idQuery = { ['id__gte']: this.db_index[left] }
-          tableStartId = start - left
-        } else {
-          tableStartId = start
-        }
-        const data = await this.getVariants({
-          start: tableStartId,
-          size,
-          id_query: idQuery,
-          reverse
-        })
-        if (data.rows.length == 0) {
-          this.lock = 0
-          return resolve()
-        }
-        if (!data) {
-          this.lock = 0
-          return reject()
-        }
+      let idQuery, tableStartId
+      let reverse = false
+      if (this.db_index[start]) {
+        idQuery = { ['id__gte']: this.db_index[start] }
+        tableStartId = 0
+      } else if (
+        start - left > right - start - size &&
+        right != this.boundary.max
+      ) {
+        // left ----------------------------right
+        //                ^  <---------->
+        //              start     size
+        idQuery = { ['id__lt']: this.db_index[right] }
+        tableStartId = right - start - size
+        reverse = true
+      } else if (left != this.boundary.min) {
+        idQuery = { ['id__gte']: this.db_index[left] }
+        tableStartId = start - left
+      } else {
+        tableStartId = start
+      }
+      const [data, error] = await this.getVariants({
+        start: tableStartId,
+        size,
+        id_query: idQuery,
+        reverse,
+        match_counts: this.match_counts
+      })
+      if (error) {
+        this.lock = 0
+        throw error
+      }
+      if (data.rows.length == 0) {
+        this.lock = 0
+        return
+      }
+      this.match_counts = data.match_counts
 
         // add No. column
         let no = start

@@ -99,7 +99,7 @@ def cohort(request, cohort_id):
         except CohortModel.DoesNotExist:
             # unseen queries
             cohort = CohortModel.objects.get(pk=cohort_id)
-            qs = _Qs(cohort, queries)
+            qs, _ = _Qs(cohort, queries)
             cohort.save_filter(token, query_str)
 
             valid = check_keyword_is_contained_in_term_model(
@@ -455,6 +455,7 @@ def variants(request, cohort_id, start, size):
     # parameters
     get = json.loads(request.body.decode('utf-8')).get
     queries = json.loads(get('queries', '[]'))
+    match_counts = json.loads(get('match_counts', '{}'))
     reverse = get('reverse', 'false')
     size = max(min(size, _MAX_VARIANTS_PER_REQUEST), 0)
 
@@ -464,7 +465,7 @@ def variants(request, cohort_id, start, size):
     if not valid:
         return JsonResponse({'rows': [], 'start': start})
 
-    qs = _Qs(cohort, queries)
+    qs, match_counts = _Qs(cohort, queries, match_counts)
     logger.debug(qs)
     try:
         if not reverse:
@@ -493,4 +494,4 @@ def variants(request, cohort_id, start, size):
         for other in others:
             variant[other] = json.loads(variant['Others'])[other]
 
-    return JsonResponse({'rows': variants, 'start': start, 'db_start_id': db_start_id, 'db_end_id': db_end_id})
+    return JsonResponse({'rows': variants, 'start': start, 'db_start_id': db_start_id, 'db_end_id': db_end_id, 'match_counts': match_counts})

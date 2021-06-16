@@ -56,7 +56,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def _Qs(cohort, queries):
+def _Qs(cohort, queries, match_counts={}):
     qs = Q()
     for query in queries:
         key = list(query.keys())[0]
@@ -73,7 +73,9 @@ def _Qs(cohort, queries):
                 logger.info('is_indexes')
                 match = {}
                 match[key] = value
-                qs &= Q_match(cohort, match, id_cached)
+                q_match, match_counts = Q_match(
+                    cohort, match, id_cached, match_counts)
+                qs &= q_match
             else:
                 for v in value:
                     qs &= Q(**{f'{key}__icontains': v})
@@ -81,7 +83,8 @@ def _Qs(cohort, queries):
             qs &= Q_position(query)
         else:
             qs &= Q(**query)
-    return qs
+    logger.info(qs)
+    return qs, match_counts
 
 
 def Q_hashcodes(match):
@@ -105,7 +108,7 @@ def Q_hashcodes(match):
     return qs
 
 
-def Q_match(cohort, match, id_cached):
+def Q_match(cohort, match, id_cached, match_counts):
     qs = Q()
     # match = {'CLNSIG': ['rs123', 'rs234']}
     keys = match.keys()
@@ -121,10 +124,14 @@ def Q_match(cohort, match, id_cached):
 
     start_time = time.time()
     try:
-        query_key = f'hashcodemodel__{key}__in'
-        match_count = cohort.variantmodel_set.filter(
-            **{query_key: hashcodes}
-        ).count()
+        if ''.join(hashcodes) in match_counts:
+            match_count = match_counts[''.join(hashcodes)]
+        else:
+            query_key = f'hashcodemodel__{key}__in'
+            match_count = cohort.variantmodel_set.filter(
+                **{query_key: hashcodes}
+            ).count()
+            match_counts[''.join(hashcodes)] = match_count
     except (InternalError, OperationalError):
         match_count = None
 
@@ -150,7 +157,7 @@ def Q_match(cohort, match, id_cached):
         for value in values:
             qs |= Q(**{query_key: value})
 
-    return qs
+    return qs, match_counts
 
 
 def Q_position(query):
