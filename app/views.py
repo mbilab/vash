@@ -96,17 +96,11 @@ def cohort(request, cohort_id):
         try:
             # seen queries
             cohort = CohortModel.objects.get(token=token)
-            valid = has_only_terms(cohort_id, queries)
-            logger.info(f'Queries has only terms: {valid}')
-            if valid:
-                qs = _Qs(CohortModel.objects.get(pk=cohort_id), queries)
-                cohort.n_variants = CohortModel.objects.get(
-                    id=cohort_id).variantmodel_set.filter(qs).count()
         except CohortModel.DoesNotExist:
             # unseen queries
             cohort = CohortModel.objects.get(pk=cohort_id)
             qs = _Qs(cohort, queries)
-            cohort.save_filter(token, query_str, qs)
+            cohort.save_filter(token, query_str)
 
             valid = check_keyword_is_contained_in_term_model(
                 cohort_id, queries)

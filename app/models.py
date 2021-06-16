@@ -23,7 +23,7 @@ class CohortModel(models.Model):
     parent_cohort_id = models.TextField(null=True)
     created_percentage = models.FloatField(null=True)
 
-    def save_filter(self, token, query_str, qs):
+    def save_filter(self, token, query_str):
         self.ctime = datetime.now()
         self.name += ' (filtered)'
         self.n_variants = None
@@ -490,7 +490,10 @@ class VariantModel(models.Model):
     targetScanS = models.TextField(null=True)  # !
 
     class Meta:
-        ordering = ['id']
+        ordering = ['id', ]
+        indexes = [
+            models.Index(fields=['CHROM', 'Start', 'End']),
+        ]
 
 
 class HashCodeModel(models.Model):
