@@ -475,6 +475,9 @@ export default {
     async reset() {
       this.db_index = {}
       this.tree = createTree()
+      clearInterval(this.timer)
+      this.timer = null
+      this.nCountingVariants = 0
       this.loaded.rows.splice(0, this.loaded.rows.length)
       this.rendered.rows.splice(0, this.rendered.rows.length)
 

@@ -172,22 +172,15 @@ export default {
       this.$root.$emit('BigTable:reset')
       this.resetStagedFilters()
 
-      var count = 1
-      let timer = setInterval(() => {
-        this.setCohortNVariants({
-          idx: this.selectedCohortIdx,
-          nVariants: ++count * 100 + '+'
-        })
-      }, 1500)
       let queryed_cohort = await this.getCohort({
         id: this.cohort.id,
         queries
       })
-      clearInterval(timer)
-      this.setCohortNVariants({
-        idx: this.selectedCohortIdx,
-        nVariants: queryed_cohort.n_variants
-      })
+      if (this.cohort.queries == queries)
+        this.setCohortNVariants({
+          idx: this.selectedCohortIdx,
+          nVariants: queryed_cohort.n_variants
+        })
     },
 
     clearFilter(column) {
