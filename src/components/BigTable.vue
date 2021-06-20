@@ -318,59 +318,59 @@ export default {
       }
       this.match_counts = data.match_counts
 
-        // add No. column
-        let no = start
-        for (const v of data.rows) v['No.'] = ++no
+      // add No. column
+      let no = start
+      for (const v of data.rows) v['No.'] = ++no
 
-        const save_db_index = (id, db_index) => {
-          this.$set(this.db_index, id, db_index)
+      const save_db_index = (id, db_index) => {
+        this.$set(this.db_index, id, db_index)
 
-          this.tree = this.tree.insert(id, '')
+        this.tree = this.tree.insert(id, '')
 
-          let key = `/cohort/${this.cohort.id}/` + this.cohort.queries
-          let value = {
-            ...this.cohort,
-            db_index: JSON.stringify(this.db_index)
-          }
-          this.setCacheItem({ key, value })
+        let key = `/cohort/${this.cohort.id}/` + this.cohort.queries
+        let value = {
+          ...this.cohort,
+          db_index: JSON.stringify(this.db_index)
         }
+        this.setCacheItem({ key, value })
+      }
 
-        // save db_end_id and db_start_id in vue.dat, tree, and cache
-        if (!this.db_index[start + data.rows.length]) {
-          save_db_index(start + data.rows.length, data.db_end_id + 1)
-        }
-        if (!this.db_index[start]) {
-          save_db_index(start, data.db_start_id)
-        }
+      // save db_end_id and db_start_id in vue.dat, tree, and cache
+      if (!this.db_index[start + data.rows.length]) {
+        save_db_index(start + data.rows.length, data.db_end_id + 1)
+      }
+      if (!this.db_index[start]) {
+        save_db_index(start, data.db_start_id)
+      }
 
-        // update loaded range
-        const end =
-          start + data.rows.length <= this.cohort.n_variants
-            ? start + data.rows.length
-            : this.cohort.n_variants
-        const loaded = this.loaded
-        if (this.in(start, loaded)) {
-          // start in between loaded range, concat
-          loaded.rows.splice(
-            start - loaded.start,
-            data.rows.length,
-            ...data.rows
-          )
-        } else if (this.in(end, this.loaded)) {
-          // end in between loaded range, concat
-          loaded.rows.splice(0, end - loaded.start, ...data.rows)
-          this.loaded.start = start
-        } else {
-          // no overlap, new loaded range
-          loaded.rows = []
-          loaded.rows.splice(0, data.rows.length, ...data.rows)
-          loaded.start = start
-        }
-        this.lock = 0
-        if (this.rendered.start - this.loaded.start > this.loadSize)
-          this.onScroll()
-        return resolve()
-      })
+      // update loaded range
+      const end =
+        start + data.rows.length <= this.cohort.n_variants
+          ? start + data.rows.length
+          : this.cohort.n_variants
+      const loaded = this.loaded
+      if (this.in(start, loaded)) {
+        // start in between loaded range, concat
+        loaded.rows.splice(start - loaded.start, data.rows.length, ...data.rows)
+      } else if (this.in(end, this.loaded)) {
+        // end in between loaded range, concat
+        loaded.rows.splice(0, end - loaded.start, ...data.rows)
+        this.loaded.start = start
+      } else {
+        // no overlap, new loaded range
+        loaded.rows = []
+        loaded.rows.splice(0, data.rows.length, ...data.rows)
+        loaded.start = start
+      }
+      this.lock = 0
+      if (this.rendered.start - this.loaded.start > this.loadSize)
+        this.onScroll()
+      if (!this.timer && !this.cohortInitialize) {
+        this.timer = setInterval(() => {
+          this.nCountingVariants += 100
+        }, 1500)
+      }
+      return
     }, // }}}
 
     scrollLeft() {

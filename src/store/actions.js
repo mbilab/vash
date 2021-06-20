@@ -43,7 +43,7 @@ const getCohort = async ({ commit, state }, { id, queries }) => {
   return data
 }
 
-const getVariants = (
+const getVariants = async (
   { commit, state },
   { start, size, id_query, reverse = false, match_counts = {} }
 ) => {
@@ -69,6 +69,13 @@ const getVariants = (
     reverse,
     match_counts
   })
+  commit('delRequest', timestamp)
+  if (id_query) {
+    queries = JSON.parse(queries)
+    queries.pop()
+    queries = JSON.stringify(queries)
+  }
+  if (id == cohort.id && queries == cohort.queries) return [data, null]
 }
 
 const getFriends = async ({ commit, state }) => {
