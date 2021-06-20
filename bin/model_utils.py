@@ -58,6 +58,13 @@ logger = logging.getLogger(__name__)
 
 def _Qs(cohort, queries, match_counts={}):
     qs = Q()
+
+    id_cached = False
+    for query in queries:
+        key = list(query.keys())[0]
+        if key == 'id__gte':
+            id_cached = True
+
     for query in queries:
         key = list(query.keys())[0]
         if "variantID" in key:
