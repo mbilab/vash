@@ -3,9 +3,6 @@ import 'babel-polyfill' // for async/await
 import localforage from 'localforage'
 import { debounce, throttle } from 'lodash'
 
-import config from '../config'
-// import mock from '../mock'
-
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -38,6 +35,9 @@ const getCohort = async ({ commit, state }, { id, queries }) => {
   commit('addRequest', { k: timestamp, v: true })
   let param = { queries }
   const { data } = await axios.post(url, param)
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+  await delay(10000)
+
   commit('delRequest', timestamp)
 
   return data

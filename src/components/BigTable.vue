@@ -1,14 +1,14 @@
 <template lang="pug">
 .big-table
   .-table
-    div(v-if='cohortInitialize')
+    div(v-if='cohortInitialize!=undefined')
       .-status
         p {{ cohort.n_variants }} variants
       .-status.-right
         a(v-if='knownSize',@click='scrollToTop') #[i.redo.icon]Refresh
     div(v-else)
       .-status
-        p 0 variant
+        p {{ nCountingVariants ? nCountingVariants + '+ variants': 'searching' }}
     .-thead(ref='theadFix')
       table.ui.celled.compact.striped.unstackable.table
         thead(v-if='knownSize || cohort.id'): tr
@@ -50,6 +50,7 @@
                 | {{ v[column.name] }}
               span(v-else-if='v[column.name] == 0.000000000001 || v[column.dbName] == 0.000000000001') .
               span(v-else-if='v[column.name] == 0.000000000002 || v[column.dbName] == 0.000000000002') nan
+              span(v-else-if='v[column.dbName || column.name] && column.numeric') {{ Number(v[column.dbName || column.name].toFixed(6)) }}
               span(v-else) {{ v[column.dbName || column.name] }}
           tr(:style='paddingBottom')
     .-empty(v-else): .ui.small.compact.error.message Load a cohort to start
@@ -96,21 +97,24 @@ export default {
     ...mapState(['filters']),
 
     cohortInitialize() {
-      if (this.cohort.n_variants) {
+      if (this.cohort.n_variants != undefined) {
         if (
           JSON.stringify(this.samples) !=
           JSON.stringify(this.cohort.samples.split(','))
         ) {
           let samples = this.samples
-          this.setCohortSamples({ samples })
           this.samples = this.cohort.samples.split(',')
           this.info = JSON.parse(this.cohort.info)
           this.info['bam'] = this.info['bam'].split(',')
         }
 
+        clearInterval(this.timer)
+        this.timer = null
+        this.nCountingVariants = 0
         return this.cohort.n_variants
       }
-      if (!this.loaded.rows.length) return 0
+      if (!this.loaded.rows.length) return undefined
+      return undefined
     },
 
     knownSize() {
@@ -504,6 +508,7 @@ export default {
   mounted() {
     this.reset()
     this.$root.$on('BigTable:reset', this.reset)
+    this.$root.$on('BigTable:fitColumn', this.fitColumn)
   },
 
   props: {
@@ -613,11 +618,22 @@ export default {
 .ui.table
   margin: 0
 
+  td:not(:first-child)
+    max-width: 10em
+
   th, td
     white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+    &:hover
+      overflow: visible
+      > *
+        white-space: normal
+        word-wrap: break-word
 
     &.-numeric
-      text-align: right
+      text-align: left
 
   th
     border-bottom: 0
