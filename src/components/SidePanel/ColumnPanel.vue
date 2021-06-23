@@ -6,13 +6,15 @@
       .itme.-block
         .-block-tittle(@click='toggleColumnGroup(columnGroup)')
           .-content {{ name.toUpperCase() }}
-          i.check.icon(v-if='isAllSelected(columnGroup)')
+          i.check.square.outline.icon(v-if='isAllSelected(columnGroup)')
+          i.square.outline.icon(v-else='isAllSelected(columnGroup)')
           .-full-text {{ name.toUpperCase() }}
         .list
           .item(v-for='column in columnGroup')
             .-block-item(@click='toggleColumn(column)')
               .-content {{ column }}
-              i.check.icon(v-if='isSelected(column)')
+              i.check.square.outline.icon(v-if='isSelected(column)')
+              i.square.outline.icon(v-else='isSelected(column)')
               .-full-text {{ column }}
       .ui.divider
 
