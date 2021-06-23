@@ -2,25 +2,46 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import actions from './actions'
-import config from '../config'
+import annotaionGroup from '../annotaion_group.json'
 
 Vue.use(Vuex)
 
-const _parseColumns = raw => {
-  const ret = { columnGroups: {}, columnNames: [], columns: {} }
-  for (const group in raw) {
-    ret.columnGroups[group] = []
-    for (const column of raw[group]) {
-      if (column.visible == true) {
-        column.group = group
-        ret.columnGroups[group].push(column.name)
-        ret.columnNames.push(column.name)
-        ret.columns[column.name] = column
+const _parseColumns = groupTree => {
+  // annotaionGroup (groupTRee)
+  //   Functional (group)
+  // 	   refGene (groupNode)
+  // 		Func.refGene
+  // 		Gene.refGene
+  // 	   avsnp150 (columnNode)
+  const returnObjs = { columnGroups: {}, columnNames: [], columns: {} }
+
+  for (const group in groupTree) {
+    returnObjs.columnGroups[group] = []
+    for (const nodeKey in groupTree[group]) {
+      const node = groupTree[group][nodeKey]
+      returnObjs.columnGroups[nodeKey] = []
+      // if node has a name, it is a columnNode
+      if (node.name) {
+        if (node.visible !== true) continue
+        node.group = group
+        returnObjs.columnGroups[group].push(node.name)
+        returnObjs.columnNames.push(node.name)
+        returnObjs.columns[node.name] = node
+        // if node has no name, it is a groupNode
+      } else {
+        for (const columnKey in node) {
+          const column = groupTree[group][nodeKey][columnKey]
+          if (column.visible !== true) continue
+          column.group = nodeKey
+          returnObjs.columnGroups[nodeKey].push(column.name)
+          returnObjs.columnNames.push(column.name)
+          returnObjs.columns[column.name] = column
+        }
       }
     }
   }
-  ret.filters = _resetFilters(ret.columns)
-  return ret
+  returnObjs.filters = _resetFilters(returnObjs.columns)
+  return returnObjs
 }
 
 const _resetFilter = column => {
@@ -205,33 +226,6 @@ export default new Vuex.Store({
       var scores = []
       if (availables) {
         availables = availables.split(',')
-        scores = availables.filter(v => Object.keys(config.bScore).includes(v))
-        availables = availables.filter(v => !scores.includes(v))
-
-        const ret = { columnGroups: {}, columnNames: [], columns: {} } // reparse config
-        let alleleFrequency = []
-        for (var group in config.columns) {
-          ret.columnGroups[group] = []
-          for (var column of config.columns[group]) {
-            if (availables.includes(column.name) || column.visible == true) {
-              // if column shown or visible
-              column.group = group
-              ret.columnGroups[group].push(column.name)
-              ret.columnNames.push(column.name)
-              ret.columns[column.name] = column
-            }
-          }
-        }
-        state.columnNames = ret.columnNames
-        state.columns = ret.columns
-        state.filters = ret.filters
-        state.columnGroups = ret.columnGroups
-        for (let i in scores) {
-          state.columnNames.push(scores[i])
-          Vue.set(state.columns, scores[i], config.bScore[scores[i]])
-          state.columnGroups['score'].push(scores[i]) // multiple group
-        }
-        state.filters = _resetFilters(state.columns)
       }
       samples = cohort.samples
       if (samples.length > 0) {
@@ -311,7 +305,7 @@ export default new Vuex.Store({
   },
 
   state: {
-    ..._parseColumns(config.columns),
+    ..._parseColumns(annotaionGroup),
     panels: ['cohort', 'column', 'filter', 'subCohort'],
     currentPanel: null,
     activeColumnName: 'Select a Filter',

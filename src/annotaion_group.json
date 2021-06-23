@@ -1,0 +1,1550 @@
+{
+  "basic": {
+    "POS":
+    {
+      "position": true,
+      "dbName": "POS",
+      "filterable": true,
+      "name": "POS",
+      "selected": true,
+      "visible": true
+    },
+    "CHROM": { "filterable": false, "name": "CHROM", "selected": false, "visible": false },
+
+    "Start":
+    {
+      "filterable": false,
+      "name": "Start",
+      "selected": false,
+      "visible": false
+    },
+    "End":
+    {
+      "filterable": false,
+      "name": "End",
+      "selected": false,
+      "visible": false
+    },
+    "ID":
+    {
+      "contain": true,
+      "dbName": "variantID",
+      "filterable": true,
+      "name": "ID",
+      "selected": true,
+      "visible": true
+    },
+    "REF":
+    { "filterable": false, "name": "REF", "selected": true, "visible": true },
+    "ALT":
+    { "filterable": false, "name": "ALT", "selected": true, "visible": true },
+    "Genotype":
+    {
+      "filterable": true,
+      "equalTo": [
+        { "": true },
+        { "dominant": true },
+        { "recessive": true },
+        { "denovo": true },
+        { "compound": true }
+      ],
+      "equalToEmpty": "unknown",
+      "name": "Genotype",
+      "selected": true,
+      "visible": false
+    },
+    "FORMAT":
+    { "filterable": false, "name": "FORMAT", "selected": true, "visible": false },
+    "AC": {
+      "equality": "?",
+      "filterable": true,
+      "name": "AC",
+      "numeric": true,
+      "selected": false,
+      "threshold": "100",
+      "visible": true
+    },
+    "AN": {
+      "equality": "?",
+      "filterable": true,
+      "name": "AN",
+      "numeric": true,
+      "selected": false,
+      "threshold": "100",
+      "visible": true
+    },
+    "AF": {
+      "equality": "?",
+      "filterable": true,
+      "name": "AF",
+      "numeric": true,
+      "selected": true,
+      "threshold": 100,
+      "visible": true
+    }
+  },
+  "quality": {
+    "QUAL":
+    {
+      "equality": "?",
+      "filterable": true,
+      "name": "QUAL",
+      "numeric": true,
+      "selected": true,
+      "threshold": 100,
+      "visible": true
+    },
+    "FILTER":
+    {
+      "filterable": true,
+      "equalTo": [
+        { "PASS": true },
+        { "lowQual": true },
+        { "VQSRTrancheBOTH99.00to99.90": true },
+        { "VQSRTrancheBOTH99.90to100.00": true }
+      ],
+      "name": "FILTER",
+      "selected": true,
+      "visible": true
+    }
+  },
+  "Functional": {
+    "refGene": {
+      "Func.refGene": {
+        "contain": true,
+        "dbName": "Func_dot_refGene",
+        "filterable": true,
+        "name": "Func.refGene",
+        "selected": false,
+        "visible": true
+      },
+      "Gene.refGene": {
+        "contain": true,
+        "dbName": "Gene_dot_refGene",
+        "filterable": true,
+        "name": "Gene.refGene",
+        "selected": true,
+        "visible": true
+      },
+      "GeneDetail.refGene": {
+        "contain": true,
+        "dbName": "GeneDetail_dot_refGene",
+        "filterable": true,
+        "name": "GeneDetail.refGene",
+        "selected": false,
+        "visible": true
+      },
+      "ExonicFunc.refGene": {
+        "contain": true,
+        "dbName": "ExonicFunc_dot_refGene",
+        "filterable": true,
+        "name": "ExonicFunc.refGene",
+        "selected": false,
+        "visible": true
+      },
+      "AAChange.refGene": {
+        "contain": true,
+        "dbName": "AAChange_dot_refGene",
+        "filterable": true,
+        "name": "AAChange.refGene",
+        "selected": false,
+        "visible": true
+      }
+    },
+    "knownGene": {
+      "Func.knownGene": {
+        "contain": true,
+        "dbName": "Func_dot_knownGene",
+        "filterable": true,
+        "name": "Func.knownGene",
+        "selected": false,
+        "visible": true
+      },
+      "Gene.knownGene": {
+        "contain": true,
+        "dbName": "Gene_dot_knownGene",
+        "filterable": true,
+        "name": "Gene.knownGene",
+        "selected": false,
+        "visible": true
+      },
+      "GeneDetail.knownGene": {
+        "contain": true,
+        "dbName": "GeneDetail_dot_knownGene",
+        "filterable": true,
+        "name": "GeneDetail.knownGene",
+        "selected": false,
+        "visible": true
+      },
+      "ExonicFunc.knownGene": {
+        "contain": true,
+        "dbName": "ExonicFunc_dot_knownGene",
+        "filterable": true,
+        "name": "ExonicFunc.knownGene",
+        "selected": false,
+        "visible": true
+      },
+      "AAChange.knownGene": {
+        "contain": true,
+        "dbName": "AAChange_dot_knownGene",
+        "filterable": true,
+        "name": "AAChange.knownGene",
+        "selected": false,
+        "visible": true
+      }
+    },
+    "ClinVar": {
+      "CLNALLELEID": {
+        "equality": "?",
+        "filterable": true,
+        "name": "CLNALLELEID",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "CLNDN": {
+        "contain": true,
+        "filterable": true,
+        "name": "CLNDN",
+        "selected": false,
+        "visible": true
+      },
+      "CLNDISDB": {
+        "contain": true,
+        "filterable": true,
+        "name": "CLNDISDB",
+        "selected": false,
+        "visible": true
+      },
+      "CLNREVSTAT": {
+        "contain": true,
+        "filterable": true,
+        "name": "CLNREVSTAT",
+        "selected": false,
+        "visible": true
+      },
+      "CLNSIG": {
+        "contain": true,
+        "filterable": true,
+        "name": "CLNSIG",
+        "selected": true,
+        "visible": true
+      }
+    },
+    "avsnp150": {
+      "contain": true,
+      "filterable": true,
+      "name": "avsnp150",
+      "selected": false,
+      "visible": false
+    },
+    "GenoMP": false
+  },
+  "Allele Frequency": {
+    "esp6500":{
+      "esp6500siv2_all": {
+        "equality": "?",
+        "filterable": true,
+        "name": "esp6500siv2_all",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      }
+    },
+    "1000g": {
+      "1000g2015aug_all": {
+        "dbName": "N_1000g2015aug_all",
+        "equality": "?",
+        "filterable": true,
+        "name": "1000g2015aug_all",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "EAS.sites.2015_08": {
+        "dbName": "EAS_dot_sites_dot_2015_08",
+        "equality": "?",
+        "filterable": true,
+        "name": "EAS.sites.2015_08",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "SAS.sites.2015_08":  {
+        "dbName": "SAS_dot_sites_dot_2015_08",
+        "equality": "?",
+        "filterable": true,
+        "name": "SAS.sites.2015_08",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "AFR.sites.2015_08": {
+        "dbName": "AFR_dot_sites_dot_2015_08",
+        "equality": "?",
+        "filterable": true,
+        "name": "AFR.sites.2015_08",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "AMR.sites.2015_08": {
+        "dbName": "AMR_dot_sites_dot_2015_08",
+        "equality": "?",
+        "filterable": true,
+        "name": "AMR.sites.2015_08",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "EUR.sites.2015_08": {
+        "dbName": "EUR_dot_sites_dot_2015_08",
+        "equality": "?",
+        "filterable": true,
+        "name": "EUR.sites.2015_08",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      }
+    },
+    "ExAC": {
+      "ExAC_ALL": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_ALL",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_AFR": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_AFR",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_AMR": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_AMR",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_EAS": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_EAS",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_FIN": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_FIN",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_NFE": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_NFE",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_OTH": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_OTH",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "ExAC_SAS": {
+        "equality": "?",
+        "filterable": true,
+        "name": "ExAC_SAS",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      }
+    },
+    "cg69": {
+      "equality": "?",
+      "filterable": true,
+      "name": "cg69",
+      "numeric": true,
+      "selected": false,
+      "threshold": 100,
+      "visible": false
+    },
+    "Kaviar_AF": {
+      "Kaviar_AC": {
+        "equality": "?",
+        "filterable": true,
+        "name": "Kaviar_AC",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "Kaviar_AN": {
+        "equality": "?",
+        "filterable": true,
+        "name": "Kaviar_AN",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      }
+    },
+    "gnomAD_2_genome": {
+      "gnomAD_2_genome_AF": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_male": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_male",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_female": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_female",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_raw": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_raw",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_afr": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_afr",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_sas": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_sas",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_amr": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_amr",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_eas": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_eas",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_nfe": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_nfe",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_fin": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_fin",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_asj": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_asj",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_AF_oth": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_AF_oth",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_non_topmed_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_non_topmed_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_non_neuro_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_non_neuro_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_non_cancer_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_non_cancer_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_genome_controls_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_genome_controls_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      }
+    },
+    "gnomAD_2_exome": {
+      "gnomAD_2_exome_AF": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_male": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_male",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_female": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_female",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_raw": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_raw",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_afr": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_afr",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_sas": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_sas",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_amr": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_amr",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_eas": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_eas",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_nfe": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_nfe",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_fin": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_fin",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_asj": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_asj",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_AF_oth": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_AF_oth",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_non_topmed_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_non_topmed_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_non_neuro_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_non_neuro_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_non_cancer_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_non_cancer_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      },
+      "gnomAD_2_exome_controls_AF_popmax": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_2_exome_controls_AF_popmax",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": true
+      }
+    },
+    "gnomAD_genome": {
+      "gnomAD_genome_ALL": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_ALL",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_AFR": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_AFR",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_AMR": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_AMR",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_ASJ": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_ASJ",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_EAS": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_EAS",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_FIN": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_FIN",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_NFE": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_NFE",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_genome_OTH": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_genome_OTH",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      }
+    },
+    "gnomAD_exome": {
+      "gnomAD_exome_ALL": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_ALL",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_AFR": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_AFR",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_AMR": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_AMR",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_ASJ": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_ASJ",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_EAS": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_EAS",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_FIN": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_FIN",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_NFE": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_NFE",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_OTH": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_OTH",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      },
+      "gnomAD_exome_SAS": {
+        "equality": "?",
+        "filterable": true,
+        "name": "gnomAD_exome_SAS",
+        "numeric": true,
+        "selected": false,
+        "threshold": 100,
+        "visible": false
+      }
+    },
+    "tbbaf": {
+      "equality": "?",
+      "filterable": true,
+      "name": "tbbaf",
+      "numeric": true,
+      "selected": false,
+      "threshold": 100,
+      "visible": false
+    }
+  },
+  "Prediction-based annotation": {
+    "SpliceAI": false,
+    "PrimateAI": false,
+    "dbnsfp33a": {
+      "SIFT_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "SIFT_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "SIFT_converted_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "SIFT_converted_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "SIFT_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "SIFT_pred",
+        "selected": false,
+        "visible": true
+      },
+      "Polyphen2_HDIV_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "Polyphen2_HDIV_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "Polyphen2_HDIV_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "Polyphen2_HDIV_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "Polyphen2_HDIV_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "Polyphen2_HDIV_pred",
+        "selected": false,
+        "visible": true
+      },
+      "Polyphen2_HVAR_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "Polyphen2_HVAR_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "Polyphen2_HVAR_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "Polyphen2_HVAR_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "Polyphen2_HVAR_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "Polyphen2_HVAR_pred",
+        "selected": false,
+        "visible": true
+      },
+      "LRT_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "LRT_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "LRT_converted_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "LRT_converted_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "LRT_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "LRT_pred",
+        "selected": false,
+        "visible": true
+      },
+      "MutationTaster_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MutationTaster_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MutationTaster_converted_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MutationTaster_converted_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MutationTaster_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "MutationTaster_pred",
+        "selected": false,
+        "visible": true
+      },
+      "MutationAssessor_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MutationAssessor_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MutationAssessor_score_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MutationAssessor_score_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MutationAssessor_pred": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MutationAssessor_pred",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "FATHMM_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "FATHMM_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "FATHMM_converted_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "FATHMM_converted_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "FATHMM_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "FATHMM_pred",
+        "selected": false,
+        "visible": true
+      },
+      "PROVEAN_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "PROVEAN_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "PROVEAN_converted_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "PROVEAN_converted_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "VEST3_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "VEST3_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "PROVEAN_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "PROVEAN_pred",
+        "selected": false,
+        "visible": true
+      },
+      "VEST3_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "VEST3_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MetaSVM_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MetaSVM_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MetaSVM_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MetaSVM_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MetaSVM_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "MetaSVM_pred",
+        "selected": false,
+        "visible": true
+      },
+      "MetaLR_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MetaLR_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MetaLR_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "MetaLR_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "MetaLR_pred": {
+        "contain": true,
+        "filterable": true,
+        "name": "MetaLR_pred",
+        "selected": false,
+        "visible": true
+      },
+      "M-CAP_score": {
+        "dbName": "M_dash_CAP_score",
+        "equality": "?",
+        "filterable": true,
+        "name": "M-CAP_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "M-CAP_rankscore": {
+        "dbName": "M_dash_CAP_rankscore",
+        "equality": "?",
+        "filterable": true,
+        "name": "M-CAP_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "M-CAP_pred": {
+        "contain": true,
+        "dbName": "M_dash_CAP_pred",
+        "filterable": true,
+        "name": "M-CAP_pred",
+        "selected": false,
+        "visible": true
+      },
+      "CADD_raw": {
+        "equality": "?",
+        "filterable": true,
+        "name": "CADD_raw",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "CADD_raw_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "CADD_raw_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "CADD_phred": {
+        "equality": "?",
+        "filterable": true,
+        "name": "CADD_phred",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "DANN_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "DANN_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "DANN_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "DANN_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "fathmm-MKL_coding_score": {
+        "dbName": "fathmm_dash_MKL_coding_score",
+        "equality": "?",
+        "filterable": true,
+        "name": "fathmm-MKL_coding_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "fathmm-MKL_coding_rankscore": {
+        "dbName": "fathmm_dash_MKL_coding_rankscore",
+        "equality": "?",
+        "filterable": true,
+        "name": "fathmm-MKL_coding_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "fathmm-MKL_coding_pred": {
+        "contain": true,
+        "dbName": "fathmm_dash_MKL_coding_pred",
+        "filterable": true,
+        "name": "fathmm-MKL_coding_pred",
+        "selected": false,
+        "visible": true
+      },
+      "Eigen_coding_or_noncoding": {
+        "contain": true,
+        "filterable": true,
+        "name": "Eigen_coding_or_noncoding",
+        "selected": false,
+        "visible": true
+      },
+      "Eigen-raw": {
+        "dbName": "Eigen_dash_raw",
+        "equality": "?",
+        "filterable": true,
+        "name": "Eigen-raw",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "Eigen-PC-raw": {
+        "dbName": "Eigen_dash_PC_dash_raw",
+        "equality": "?",
+        "filterable": true,
+        "name": "Eigen-PC-raw",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "GenoCanyon_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "GenoCanyon_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "GenoCanyon_score_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "GenoCanyon_score_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "integrated_fitCons_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "integrated_fitCons_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "integrated_fitCons_score_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "integrated_fitCons_score_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "integrated_confidence_value": {
+        "equality": "?",
+        "filterable": true,
+        "name": "integrated_confidence_value",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "GERP++_RS": {
+        "dbName": "GERPpp_RS",
+        "equality": "?",
+        "filterable": true,
+        "name": "GERP++_RS",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "GERP++_RS_rankscore": {
+        "dbName": "GERPpp_RS_rankscore",
+        "equality": "?",
+        "filterable": true,
+        "name": "GERP++_RS_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phyloP100way_vertebrate": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phyloP100way_vertebrate",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phyloP100way_vertebrate_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phyloP100way_vertebrate_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phyloP20way_mammalian": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phyloP20way_mammalian",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phyloP20way_mammalian_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phyloP20way_mammalian_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phastCons100way_vertebrate": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phastCons100way_vertebrate",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phastCons100way_vertebrate_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phastCons100way_vertebrate_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phastCons20way_mammalian": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phastCons20way_mammalian",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "phastCons20way_mammalian_rankscore": {
+        "equality": "?",
+        "filterable": true,
+        "name": "phastCons20way_mammalian_rankscore",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "SiPhy_29way_logOdds": {
+        "equality": "?",
+        "filterable": true,
+        "name": "SiPhy_29way_logOdds",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "SiPhy_29way_logOdds_rankscore": {
+        "equality": "?",
+        "filterable": "true",
+        "name": "SiPhy_29way_logOdds_rankscore",
+        "numeric": "true",
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "Interpro_domain": {
+        "contain": true,
+        "filterable": true,
+        "name": "Interpro_domain",
+        "selected": false,
+        "visible": true
+      },
+      "GTEx_V6_gene": {
+        "contain": true,
+        "filterable": true,
+        "name": "GTEx_V6_gene",
+        "selected": false,
+        "visible": true
+      },
+      "GTEx_V6_tissue": {
+        "contain": true,
+        "filterable": true,
+        "name": "GTEx_V6_tissue",
+        "selected": false,
+        "visible": true
+      }
+    },
+    "dbscSNV": {
+      "dbscSNV_ADA_SCORE": {
+        "equality": "?",
+        "filterable": true,
+        "name": "dbscSNV_ADA_SCORE",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "dbscSNV_RF_SCORE": {
+        "equality": "?",
+        "filterable": true,
+        "name": "dbscSNV_RF_SCORE",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      }
+    },
+    "gwava": {
+      "GWAVA_region_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "GWAVA_region_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "GWAVA_tss_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "GWAVA_tss_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      },
+      "GWAVA_unmatched_score": {
+        "equality": "?",
+        "filterable": true,
+        "name": "GWAVA_unmatched_score",
+        "numeric": true,
+        "selected": false,
+        "threshold": "100",
+        "visible": true
+      }
+    },
+    "BindingSites":{
+      "tfbsConsSites": {
+        "contain": true,
+        "filterable": true,
+        "name": "tfbsConsSites",
+        "selected": false,
+        "visible": true
+      },
+      "wgRna": {
+        "contain": true,
+        "filterable": true,
+        "name": "wgRna",
+        "selected": false,
+        "visible": true
+      },
+      "targetScanS": {
+        "contain": true,
+        "filterable": true,
+        "name": "targetScanS",
+        "selected": false,
+        "visible": true
+      }
+    }
+  }
+}
