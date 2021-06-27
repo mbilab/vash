@@ -134,8 +134,8 @@ def Q_match(cohort, match, id_cached, match_counts):
         if ''.join(hashcodes) in match_counts:
             match_count = match_counts[''.join(hashcodes)]
         else:
-            query_key = f'hashcodemodel__{key}__in'
-            match_count = cohort.variantmodel_set.filter(
+            query_key = f'{key}__in'
+            match_count = HashCodeModel.objects.filter(
                 **{query_key: hashcodes}
             ).count()
             match_counts[''.join(hashcodes)] = match_count
