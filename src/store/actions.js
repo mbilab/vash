@@ -35,9 +35,9 @@ const getCohort = async ({ commit, state }, { id, queries }) => {
   commit('addRequest', { k: timestamp, v: true })
   let param = { queries }
   const { data } = await axios.post(url, param)
-  const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-  await delay(10000)
-
+  // const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+  // await delay(10000)
+  //
   commit('delRequest', timestamp)
 
   return data
